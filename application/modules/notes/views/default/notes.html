@@ -1,0 +1,74 @@
+<?php  if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<a class="awesome" id="edit" onclick="note_action();">{lang_edit}</a>
+<br /><br />
+
+<script type="text/javascript">
+	var edit_state = 0;
+	
+	function note_action() {
+		if (edit_state == 1) {
+			edit_state = 0;
+			
+			save_note();
+			
+			$( "#edit" ).html("{lang_edit}");
+			$( "#view_note" ).show();
+			$( "#edit_note" ).hide();
+		} else {
+			edit_state = 1;
+			$( "#edit" ).html("{lang_save}");
+			$( "#view_note" ).hide();
+			$( "#edit_note" ).show();
+		}
+	}
+	
+	function save_note() {
+		$.ajax({ 
+			url:     	"{site_url}notes/save",
+			type:    	"POST",
+			dataType:	"html",
+			data: $("#form_edit_note").serialize(),  
+			success: function(response) {
+				if (response == 1) {
+					noty({layout: 'bottomCenter', type: 'success', text: 'Сохранено'});
+				} else {
+					noty({layout: 'bottomCenter', type: 'error', text: response});
+				}
+				load_note();
+			}, 
+			error: function(response) {
+				noty({layout: 'bottomCenter', type: 'error', text: "unknown error"});
+			} 
+		}); 
+	}
+	
+	function load_note() {
+		$.ajax({ 
+			url:     	"{site_url}notes/load",
+			type:    	"GET",
+			dataType:	"html",
+			success: function(response) {
+				$( "#note_textarea" ).html(response);
+				$( "#view_note" ).html(response);
+			}, 
+			error: function(response) {
+				$( "#note_textarea" ).html('');
+				$( "#view_note" ).html('');
+			} 
+		}); 
+	}
+	
+	$(document).ready(function() {
+		load_note();
+	});
+	
+</script>
+
+<div id="edit_note" style="display:none;min-height: 210px;">
+	<form id="form_edit_note" action="{confirmed_url}" method="post" accept-charset="utf-8">
+		<input type="hidden" name="{csrf_token_name}" value="{csrf_hash}" />
+		<pre><textarea id="note_textarea" name="note">hello</textarea></pre>
+	</form>
+</div>
+
+<pre style="min-height: 210px;" id="view_note"></pre>
