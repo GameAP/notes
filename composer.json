@@ -12,5 +12,11 @@
   ],
   "require": {
     "php": ">=5.4"
-  }
+  },
+  "post-install-cmd": [
+    "mv vendor/gameap/notes/application/modules/notes ./application/modules/notes"
+  ],
+  "post-update-cmd": [
+    "mv vendor/gameap/notes/application/modules/notes ./application/modules/notes"
+  ]
 }
