@@ -2,8 +2,6 @@
 /**
  * Notes for GameAP
  *
- * 
- *
  * @package		Notes
  * @author		Nikita Kuznetsov (ET-NiK)
  * @copyright	Copyright (c) 2013-2014, Nikita Kuznetsov (http://hldm.org)
@@ -12,7 +10,9 @@
  * @filesource
 */
 
-class Notes extends MX_Controller {
+use \Myth\Controllers\BaseController;
+
+class Notes extends BaseController {
 	
 	var $tpl_data 	= array();
 	
