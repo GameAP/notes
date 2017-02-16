@@ -24,6 +24,8 @@ class Notes extends BaseController {
 	public function __construct()
     {
         parent::__construct();
+
+        $this->load->model('users');
         
         if (!$this->users->check_user()) {
 			return;
